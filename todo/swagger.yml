@@ -1,0 +1,101 @@
+openapi: 3.0.0
+info:
+  title: "Flask TODO"
+  description: "Todo application in flask"
+  version: "1.0.0"
+servers:
+  - url: "/api"
+
+components:
+  schemas:
+    Todo:
+      type: "object"
+      required:
+        - description
+        - title
+      properties:
+        id:
+          type: "integer"
+          readOnly: true
+        title:
+          type: "string"
+        description:
+          type: "string"
+        done:
+          type: "boolean"
+  parameters:
+    id_:
+      name: "id_"
+      description: "id of the todo task to get"
+      in: path
+      required: True
+      schema:
+        type: "integer"
+
+
+paths:
+  /todos:
+    get:
+      operationId: "todos.read_all"
+      tags:
+        - "Todo"
+      summary: "Get a list of todos"
+      responses:
+        "200":
+          description: "Fetch todo list"
+
+    post:
+      operationId: "todos.create"
+      tags:
+        - "Todo"
+      summary: "Create a todo task"
+      requestBody:
+        description: "Todo task to create"
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "task"
+              $ref: "#/components/schemas/Todo"
+      responses:
+        "201":
+          description: "Successfully created a todo task"
+
+  /todos/{id_}:
+    get:
+      operationId: "todos.read_one"
+      tags:
+        - "Todo"
+      summary: "Read one Todo task"
+      parameters:
+        - $ref: "#/components/parameters/id_"
+      responses:
+        "200":
+          description: "Successfully read todo task"
+    put:
+      tags:
+        - "Todo"
+      operationId: "todos.update"
+      summary: "Update a Todo task"
+      parameters:
+        - $ref: "#/components/parameters/id_"
+      responses:
+        "200":
+          description: "Successfully updated todo task"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              x-body-name: "task"
+              $ref: "#/components/schemas/Todo"
+
+    delete:
+      tags:
+        - "Todo"
+      operationId: "todos.delete"
+      summary: "Delete a task"
+      parameters:
+        - $ref: "#/components/parameters/id_"
+      responses:
+        "204":
+          description: "Successfully deleted task"
