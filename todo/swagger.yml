@@ -99,3 +99,45 @@ paths:
       responses:
         "204":
           description: "Successfully deleted task"
+
+  /auth/register:
+    post:
+      operationId: "auth.register"
+      summary: "Register a new user"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "201":
+          description: "User registered successfully"
+        "400":
+          description: "Bad request"
+
+  /auth/login:
+    post:
+      operationId: "auth.login"
+      summary: "Login with username and password"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: "Login successful"
+        "401":
+          description: "Unauthorized"

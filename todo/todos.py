@@ -1,8 +1,10 @@
 from config import db
 from flask import abort, make_response
+from flask_jwt_extended import jwt_required
 from models import Todos, task_schema, todos_schema
 
 
+@jwt_required()
 def read_all():
     """
     fetch a list of all tasks
@@ -11,6 +13,7 @@ def read_all():
     return todos_schema.dump(tasks)
 
 
+@jwt_required()
 def create(task):
     """
     create a new task
@@ -21,6 +24,7 @@ def create(task):
     return task_schema.dump(new_task), 201
 
 
+@jwt_required()
 def read_one(id_):
     """
     fetch a single task based on its id
@@ -34,6 +38,7 @@ def read_one(id_):
     abort(404, f"Task with id {id_} not found")
 
 
+@jwt_required()
 def update(id_, task):
     """
     update a task title, description, or status based on its id
@@ -51,6 +56,7 @@ def update(id_, task):
     abort(404, f"Task with id {id_} not found")
 
 
+@jwt_required()
 def delete(id_):
     """
     delete a task based on its id
